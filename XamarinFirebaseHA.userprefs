@@ -1,0 +1,20 @@
+﻿<Properties StartupConfiguration="{3CCC4A29-5C36-41DB-9438-3F2A2B950016}|Default">
+  <MonoDevelop.Ide.ItemProperties.XamarinFirebaseHA.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.C89431F3-993C-4C48-A1A4-A8CCED94B070" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Droid/MainActivity.cs">
+    <Files>
+      <File FileName="XamarinFirebaseHA/Views/XamarinFirebaseStroage.xaml" Line="7" Column="33" />
+      <File FileName="XamarinFirebaseHA/Views/XamarinFirebaseStroage.xaml.cs" Line="18" Column="13" />
+      <File FileName="XamarinFirebaseHA/Database/DbFirebase.cs" Line="39" Column="40" />
+      <File FileName="XamarinFirebaseHA/App.xaml" Line="7" Column="1" />
+      <File FileName="XamarinFirebaseHA/App.xaml.cs" Line="22" Column="34" />
+      <File FileName="Droid/MainActivity.cs" Line="31" Column="4" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.XamarinFirebaseHA.Droid PreferredExecutionTarget="Android.vblesson" />
+  <MultiItemStartupConfigurations />
+</Properties>

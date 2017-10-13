@@ -1,0 +1,2 @@
+/Library/Frameworks/Xamarin.Interactive.framework/Versions/Current/Agents/Android/Xamarin.Interactive.dll
+/Library/Frameworks/Xamarin.Interactive.framework/Versions/Current/Agents/Android/Xamarin.Interactive.Android.dll
