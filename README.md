@@ -1,7 +1,7 @@
 # Xamarin Forms Firebase
 
 Xamarin forms ile uygulamanız üzerinden `firebase` yi bir web servis gibi kullanıp 'CRUD' işlemlerini yapıyoruz
-Crass platform-
+Cross platform-
 
 ## Getting Started
  -VS For Mac veya VS çalıştırabilirsiniz.
