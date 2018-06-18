@@ -9,7 +9,7 @@ namespace XamarinFirebaseHA
 		{
 			InitializeComponent();
 
-            MainPage = new XamarinFirebaseStroage();
+            MainPage = new NavigationPage(new StudentListPage());
 		}
 
 		protected override void OnStart()

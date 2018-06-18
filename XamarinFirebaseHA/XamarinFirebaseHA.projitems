@@ -10,8 +10,15 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)XamarinFirebaseHAPage.xaml" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\XamarinFirebaseStroage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\StudentListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AddStudentPage.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
@@ -19,18 +26,26 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)XamarinFirebaseHAPage.xaml.cs">
-      <DependentUpon>XamarinFirebaseHAPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Database\DbFirebase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Student.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\XamarinFirebaseStroage.xaml.cs">
       <DependentUpon>XamarinFirebaseStroage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ListMVVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\StudentListPage.xaml.cs">
+      <DependentUpon>StudentListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\AddStudentPage.xaml.cs">
+      <DependentUpon>AddStudentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\AddMVVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\BaseEnum.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Database\" />
     <Folder Include="$(MSBuildThisFileDirectory)Model\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModel\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Helper\" />
   </ItemGroup>
 </Project>

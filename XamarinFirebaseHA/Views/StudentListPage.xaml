@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" BackgroundColor="{StaticResource backgroundColor}" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="XamarinFirebaseHA.Views.StudentListPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="+" Command="{Binding addCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <ListView BindingContext="{Binding .}" BackgroundColor="Transparent"   ItemsSource="{Binding studentList}" RowHeight="250" IsRefreshing="{Binding isVisible}" HasUnevenRows="true" SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Margin="20" >
+                        <Grid.RowDefinitions>
+                          <RowDefinition Height="*"/>
+                          <RowDefinition Height="1"/>
+                          <RowDefinition Height="Auto"/>
+                          <RowDefinition Height="Auto"/>      
+                         </Grid.RowDefinitions>
+
+                            <Image Source="{Binding image}" Grid.Row="0"/>
+                            <BoxView Color="{StaticResource boxViewColor}" Grid.Row="1"/>
+                            <Label Text="{Binding name}" Grid.Row="2"/>
+                            <Label Text="{Binding age}" Grid.Row="3"/>
+                            
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>
