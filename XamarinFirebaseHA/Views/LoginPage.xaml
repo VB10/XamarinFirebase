@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="XamarinFirebaseHA.Views.LoginPage" BackgroundColor="{StaticResource login_backgroundColor}">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Margin="10">
+            <Entry Margin="5" BackgroundColor=" White" Placeholder="user name :"  Text="{Binding userName}"/>
+            <Entry Margin="5" BackgroundColor="White" Placeholder=" password :"  Text="{Binding password}"/>
+            <Button Text="Login!" TextColor="White" BackgroundColor="{StaticResource button_login_color}}" Command="{Binding checkUserClick}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
