@@ -1,20 +1,16 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Xamarin.Forms;
-using XamarinFirebaseHA.Helper;
 using static XamarinFirebaseHA.Helper.BaseEnum;
 
 namespace XamarinFirebaseHA.ViewModel
 {
-    public class AddMVVM : INotifyPropertyChanged
+    public class AddMVVM : BaseViewModel
     {
-        Page page;
         DbFirebase firebaseService;
         Image image;
         Stream imgSource;
@@ -51,13 +47,13 @@ namespace XamarinFirebaseHA.ViewModel
                         if (!string.IsNullOrEmpty(url)) student.image = url;
 
                     }
-                   
+
                     if (await firebaseService.saveUser(student))
                     {
-                        await page.Navigation.PopAsync();
+                        await Navigation.PopAsync(true);
                         MessagingCenter.Send<AddMVVM, bool>(this, MessageSend.addMvvmRefresh.ToString(), true);
                     }
-                    else await page.DisplayAlert("hata", "bir hata ile karşılaşıldı", "okey");
+                    else errorAlert("bir hata ile karşılaşıldı"); 
                     isLoading = false;
 
                 });
@@ -72,7 +68,7 @@ namespace XamarinFirebaseHA.ViewModel
                 {
                     await CrossMedia.Current.Initialize();
 
-                    var chosee = await page.DisplayActionSheet("Seçim yapınız", "Kapat", "Fotoğraf çek", "Galeriden seç");
+                    var chosee = await actionSheet("Fotoğraf çek", "Galeriden seç");
                     if (chosee == "Fotoğraf çek")
                     {
                         try
@@ -92,7 +88,7 @@ namespace XamarinFirebaseHA.ViewModel
                         }
                         catch (Exception)
                         {
-                            await page.DisplayAlert("Hata", "Cihazınızla ilgili bir sorunla karşılaşıldı.Lütfen hatayı bize bildirin", "Tamam");
+                            errorAlert("Cihazınızla ilgili bir sorunla karşılaşıldı.Lütfen hatayı bize bildirin");
                             return;
                         }
 
@@ -105,7 +101,7 @@ namespace XamarinFirebaseHA.ViewModel
                         });
                         if (img == null)
                         {
-                            await page.DisplayAlert("Hatırlatma", "Herhangi bir fotoğraf seçmediniz.", "Tamam");
+                            errorAlert("Herhangi bir fotoğraf seçmediniz.");
                             return;
                         }
                         imgSource = img.GetStream();
@@ -119,13 +115,12 @@ namespace XamarinFirebaseHA.ViewModel
             }
         }
 
-        public AddMVVM(Page page, Image image)
+        public AddMVVM(Page page, Image image) : base(page)
         {
             firebaseService = new DbFirebase();
             student = new Student();
             this.image = image;
             image.Source = "addImage";
-            this.page = page;
         }
         bool _isLoading;
 
@@ -143,10 +138,6 @@ namespace XamarinFirebaseHA.ViewModel
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+     
     }
 }

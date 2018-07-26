@@ -17,5 +17,10 @@ namespace XamarinFirebaseHA.Views
             base.OnAppearing();
             await listMVVM.onAppering();
         }
+
+        async void Handle_ItemAppearing(object sender, Xamarin.Forms.ItemVisibilityEventArgs e)
+        {
+            await listMVVM.itemAppering((Student)e.Item);
+        }
     }
 }

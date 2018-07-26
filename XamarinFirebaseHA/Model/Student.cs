@@ -21,6 +21,17 @@ namespace XamarinFirebaseHA
             get;
             set;
         }
+        public string room
+        {
+            get;
+            set;
+        }
+
+        public string key
+        {
+            get;
+            set;
+        }
 
         //public string key
         //{

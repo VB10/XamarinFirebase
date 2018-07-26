@@ -49,6 +49,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\LoginMVVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helper\UserLocalData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\BaseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Database\" />

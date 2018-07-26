@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using XamarinFirebaseHA.Helper;
 using XamarinFirebaseHA.Views;
 using static XamarinFirebaseHA.Helper.BaseEnum;
 
 namespace XamarinFirebaseHA.ViewModel
 {
-    public class ListMVVM : INotifyPropertyChanged
+    public class ListMVVM : BaseViewModel
     {
-        Page page;
         DbFirebase firebaseService;
-        List<Student> _studentList;
+        ObservableCollection<Student> _studentList;
 
 
-        public List<Student> studentList
+        public ObservableCollection<Student> studentList
         {
             get
             {
@@ -33,11 +29,10 @@ namespace XamarinFirebaseHA.ViewModel
             }
         }
 
-        public ListMVVM(Page page)
+        public ListMVVM(Page page) : base(page)
         {
-            this.page = page;
             firebaseService = new DbFirebase();
-            studentList = new List<Student>();
+            studentList = new ObservableCollection<Student>();
 
             MessagingCenter.Subscribe<AddMVVM, bool>(this, MessageSend.addMvvmRefresh.ToString(), async (pg, item) =>
              {
@@ -55,37 +50,91 @@ namespace XamarinFirebaseHA.ViewModel
             {
                 return new Command(async () =>
                 {
-                    await page.Navigation.PushAsync(new AddStudentPage(), true);
+                    await Navigation.PushAsync(new AddStudentPage(), true);
+                });
+            }
+        }
+
+        public ICommand filterCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    var list = await firebaseService.getListQuery("room", "A", listCount.mid);
+                    if (list.Count > 0)
+                    {
+                        studentList = list;
+                    }
                 });
             }
         }
 
 
-        internal async Task onAppering()
+        public ICommand refreshCommand
         {
-            if (studentList.Count == 0)
+            get
             {
-                isVisible = true;
-                await getlist();
-                isVisible = false;
+                return new Command(async () =>
+                {
+                    isVisible = true;
+                    await getlist();
+                    isVisible = false;
+                });
             }
-
-        }
-        async Task getlist()
-        {
-
-            var all_list = await firebaseService.getList();
-
-            if (all_list.Count > 0)
-            {
-                studentList = all_list.ConvertAll(input => input.Object);
-            }
-            //onRefresh = false; 
         }
 
+        public async Task itemAppering(Student item)
+        {
 
-        #region boolen değişikler
-        bool _isVisible;
+            var count = studentList.IndexOf(item);
+            if (studentList.Count - 1 == count)
+            {
+                isInfinity = true;
+                var list = (await firebaseService.getListQuery(item.key, listCount.small));
+                isInfinity = false;
+
+                if (list.Last() == studentList.Last()) return;
+                else
+                {
+                    list.RemoveAt(0);
+                    foreach (var listItem in list)
+                    {
+                         studentList.Add(listItem);
+                    }
+                    studentList = studentList;
+                }
+
+            }
+        }
+
+
+
+            public async Task onAppering()
+            {
+                if (studentList.Count == 0)
+                {
+                    isVisible = true;
+                    await getlist();
+                    isVisible = false;
+                }
+
+            }
+            async Task getlist()
+            {
+
+                var all_list = await firebaseService.getList();
+
+                if (all_list.Count > 0)
+                {
+                studentList = all_list;
+                }
+                //onRefresh = false; 
+            }
+
+
+            #region boolen değişikler
+            bool _isVisible;
 
         public bool isVisible
         {
@@ -100,12 +149,22 @@ namespace XamarinFirebaseHA.ViewModel
                 OnPropertyChanged();
             }
         }
+        bool _isInfinity;
+
+        public bool isInfinity
+        {
+            get
+            {
+                return _isInfinity;
+            }
+
+            set
+            {
+                _isInfinity = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

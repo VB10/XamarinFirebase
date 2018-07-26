@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using Firebase.Xamarin.Auth;
 using Firebase.Xamarin.Database;
 using Firebase.Xamarin.Database.Query;
 using XamarinFirebaseHA.Helper;
+using static XamarinFirebaseHA.Helper.BaseEnum;
 
 namespace XamarinFirebaseHA
 {
@@ -21,15 +23,28 @@ namespace XamarinFirebaseHA
         {
             userAuth = new FirebaseAuth();
         }
-
-        public async Task<List<FirebaseObject<Student>>> getList()
+        //düz işlem
+        public async Task<ObservableCollection<Student>> getList()
         {
             try
             {
                 var list = (await client
-                            .Child("Student").WithAuth(UserLocalData.userToken)
-                            .OnceAsync<Student>()).ToList();
-                return list;
+                            .Child("Student").OrderByKey().WithAuth(UserLocalData.userToken).LimitToLast(5)
+                            .OnceAsync<Student>()).OrderByDescending(x => x.Key)
+                                                  .Select(x =>
+                                                  {
+                                                      x.Object.key = x.Key;
+                                                      return x;
+                                                  })
+                                                  .ToList();
+
+                var obs = new ObservableCollection<Student>();
+                foreach (var isx in list)
+                {
+                    obs.Add(isx.Object);
+                }
+                return obs;
+          
 
             }
             catch (Exception ex)
@@ -38,6 +53,73 @@ namespace XamarinFirebaseHA
                 {
                     await authUser();
                     return await getList();
+                }
+
+                return null;
+            }
+
+        }
+        //value balı işem
+        public async Task<ObservableCollection<Student>> getListQuery(string orderValue, string val, listCount count)
+        {
+            try
+            {
+                var list = (await client
+                            .Child("Student").OrderBy(orderValue).StartAt(val).EndAt(val).LimitToLast((int)count).WithAuth(UserLocalData.userToken)
+                            .OnceAsync<Student>()).OrderByDescending(x => x.Key)
+                                                    .Select(x =>
+                                                    {
+                                                        x.Object.key = x.Key;
+                                                        return x;
+                                                    })
+                                                  .ToList();
+                var obs = new ObservableCollection<Student>();
+                foreach (var isx in list)
+                {
+                    obs.Add(isx.Object);
+                }
+                return obs;
+
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "401 (Unauthorized)")
+                {
+                    await authUser();
+                    return await getListQuery( orderValue,  val,  count);
+                }
+
+                return null;
+            }
+
+        }
+
+        //dbden key bazlı çekim işlemi
+        public async Task<ObservableCollection<Student>> getListQuery(string key, listCount count)
+        {
+            try
+            {
+                var list = (await client
+                            .Child("Student").OrderByKey().EndAt(key).LimitToLast((int)count).WithAuth(UserLocalData.userToken)
+                            .OnceAsync<Student>()).OrderByDescending(x => x.Key).Select(x =>
+                            {
+                                x.Object.key = x.Key;
+                                return x;
+                            }).ToList();
+                var obs = new ObservableCollection<Student>();
+                foreach (var isx in list)
+                {
+                    obs.Add(isx.Object);
+                }
+                return obs;
+
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "401 (Unauthorized)")
+                {
+                    await authUser();
+                    return await getListQuery(key, count);
                 }
 
                 return null;
