@@ -178,6 +178,7 @@
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable\addImage.png" />
   </ItemGroup>
   <Import Project="..\XamarinFirebaseHA\XamarinFirebaseHA.projitems" Label="Shared" Condition="Exists('..\XamarinFirebaseHA\XamarinFirebaseHA.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

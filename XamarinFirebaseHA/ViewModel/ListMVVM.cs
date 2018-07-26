@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -15,10 +16,10 @@ namespace XamarinFirebaseHA.ViewModel
     {
         Page page;
         DbFirebase firebaseService;
-        ObservableCollection<Student> _studentList;
+        List<Student> _studentList;
 
 
-        public ObservableCollection<Student> studentList
+        public List<Student> studentList
         {
             get
             {
@@ -36,20 +37,22 @@ namespace XamarinFirebaseHA.ViewModel
         {
             this.page = page;
             firebaseService = new DbFirebase();
-            studentList = new ObservableCollection<Student>();
+            studentList = new List<Student>();
 
-            MessagingCenter.Subscribe<AddMVVM, bool>(this, MessageSend.addMvvmRefresh.ToString(),async (pg, item) =>
-            {
-                isVisible = true;
-                await getlist();
-                isVisible = false;
+            MessagingCenter.Subscribe<AddMVVM, bool>(this, MessageSend.addMvvmRefresh.ToString(), async (pg, item) =>
+             {
+                 isVisible = true;
+                 await getlist();
+                 isVisible = false;
 
-                MessagingCenter.Unsubscribe<AddMVVM, bool>(this, MessageSend.addMvvmRefresh.ToString());
-            });
+                 MessagingCenter.Unsubscribe<AddMVVM, bool>(this, MessageSend.addMvvmRefresh.ToString());
+             });
         }
 
-        public ICommand addCommand{
-            get {
+        public ICommand addCommand
+        {
+            get
+            {
                 return new Command(async () =>
                 {
                     await page.Navigation.PushAsync(new AddStudentPage(), true);
@@ -68,15 +71,14 @@ namespace XamarinFirebaseHA.ViewModel
             }
 
         }
-        async Task getlist(){
-            
+        async Task getlist()
+        {
+
             var all_list = await firebaseService.getList();
+
             if (all_list.Count > 0)
             {
-                foreach (var item in all_list)
-                {
-                    studentList.Add(item);
-                }
+                studentList = all_list.ConvertAll(input => input.Object);
             }
             //onRefresh = false; 
         }

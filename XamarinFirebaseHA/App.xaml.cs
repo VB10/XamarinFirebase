@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using Firebase.Xamarin.Auth;
+using Xamarin.Forms;
+using XamarinFirebaseHA.Helper;
 using XamarinFirebaseHA.Views;
 
 namespace XamarinFirebaseHA
@@ -6,12 +8,24 @@ namespace XamarinFirebaseHA
     public partial class App : Application
     {
 
+        const string CONFIG_KEY = "AIzaSyBLzjmsffN54_Tbp8WzUKFF2GEvI4ug_YY";
+        public static FirebaseAuthProvider firebaseAuthProvier = new FirebaseAuthProvider(new FirebaseConfig(CONFIG_KEY));
+
+
         public App()
         {
             InitializeComponent();
 
             //MainPage = new NavigationPage(new StudentListPage());
-            MainPage = new LoginPage();
+            if (!string.IsNullOrEmpty(UserLocalData.userToken))
+            {
+                MainPage = new NavigationPage(new StudentListPage());
+            }
+            else
+            {
+                MainPage = new LoginPage();
+
+            }
         }
 
         protected override void OnStart()

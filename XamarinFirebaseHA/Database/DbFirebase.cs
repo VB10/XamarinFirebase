@@ -14,34 +14,21 @@ namespace XamarinFirebaseHA
 {
     public class DbFirebase
     {
-        FirebaseClient client;
+
+        FirebaseClient client = new FirebaseClient("https://hwaproject-3da21.firebaseio.com/");
         public FirebaseAuth userAuth;
-        public FirebaseAuthProvider firebaseAuthProvier;
-        const string CONFIG_KEY = "AIzaSyBYYor9u8HOT5rz86qwFzxbMTaF4I2ZTZY";
         public DbFirebase()
         {
-            client = new FirebaseClient("https://testproject-d9372.firebaseio.com/");
             userAuth = new FirebaseAuth();
-            firebaseAuthProvier = new FirebaseAuthProvider(new FirebaseConfig(CONFIG_KEY));
-
         }
 
-        public async Task<List<Student>> getList()
+        public async Task<List<FirebaseObject<Student>>> getList()
         {
             try
             {
                 var list = (await client
-                     .Child("Student")
-                            .WithAuth(UserLocalData.userToken)
-                     .OnceAsync<Student>())
-             .Select(item =>
-                     new Student
-                     {
-                         age = item.Object.age,
-                         name = item.Object.name,
-                         key = item.Key
-                     }
-                    ).ToList();
+                            .Child("Student").WithAuth(UserLocalData.userToken)
+                            .OnceAsync<Student>()).ToList();
                 return list;
 
             }
@@ -61,8 +48,7 @@ namespace XamarinFirebaseHA
         public async Task authUser()
         {
             //todo base 64 user name and password
-            var user = await firebaseAuthProvier.SignInWithEmailAndPasswordAsync("As" + "@hwa.com", "123456s");
-            UserLocalData.removeDataAll();
+            var user = await App.firebaseAuthProvier.SignInWithEmailAndPasswordAsync("Bb@hwa.com", "123456Bb");
             UserLocalData.userToken = user.FirebaseToken;
 
         }
@@ -70,7 +56,11 @@ namespace XamarinFirebaseHA
         {
             try
             {
-                await client.Child(typeof(Student).Name).WithAuth(UserLocalData.userToken).PostAsync<Student>(student);
+
+                await client.Child("Student/" + FirebaseKeyGenerator.Next())
+                         .WithAuth(UserLocalData.userToken)
+                            .PutAsync(student);
+
                 return true;
 
             }
@@ -87,12 +77,13 @@ namespace XamarinFirebaseHA
             }
         }
 
-        async public Task saveImage(Stream imgStream)
+        async public Task<string> saveImage(Stream imgStream)
         {
             var stroageImage = await new FirebaseStorage("hardwareandro-6293a.appspot.com")
                 .Child("HardwareAndro")
                 .PutAsync(imgStream);
             var imgurl = stroageImage;
+            return imgurl;
         }
 
     }

@@ -12,7 +12,12 @@ namespace XamarinFirebaseHA.Views
         public AddStudentPage()
         {
             InitializeComponent();
-            BindingContext = addMVVM = new AddMVVM(this);
+            BindingContext = addMVVM = new AddMVVM(this,_image);
+        }
+        async protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            await addMVVM.onAppering();
         }
     }
 }

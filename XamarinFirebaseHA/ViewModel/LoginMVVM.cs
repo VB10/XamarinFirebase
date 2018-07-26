@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XamarinFirebaseHA.Helper;
@@ -27,8 +28,9 @@ namespace XamarinFirebaseHA.ViewModel
                 {
                     try
                     {
-                        var user = await service.firebaseAuthProvier.SignInWithEmailAndPasswordAsync(userName.Trim() + "@hwa.com", password.Trim());
+                        var user = await App.firebaseAuthProvier.SignInWithEmailAndPasswordAsync(userName.ToLower().Trim() + "@hwa.com", password.Trim());
                         UserLocalData.userToken = user.FirebaseToken;
+                        //TODO UserLocalData.userName = username.trim().base64
                         await page.Navigation.PushModalAsync(new NavigationPage(new StudentListPage()), true);
 
                     }
@@ -40,7 +42,9 @@ namespace XamarinFirebaseHA.ViewModel
             }
         }
 
-
+        public async Task onAppering(){
+           await service.authUser();
+        }
         string _userName;
 
         public string userName

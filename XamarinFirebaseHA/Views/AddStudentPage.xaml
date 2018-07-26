@@ -2,9 +2,15 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="XamarinFirebaseHA.Views.AddStudentPage">
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center" VerticalOptions="Center" BindingContext="{Binding .}">
+            <Image Source="{Binding image.source}" HeightRequest="200" x:Name="_image">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding selectedImageCommand}" />
+                </Image.GestureRecognizers>
+            </Image>
             <Entry Placeholder="Name" Text="{Binding student.name}" />
-            <Entry Placeholder="Number" Text="{Binding student.number}" />
+            <Entry Placeholder="Number" Text="{Binding student.age}" />
             <Button Text="save it !" BackgroundColor="Green" TextColor="White" Command="{Binding saveCommand}" />
+            <ActivityIndicator Color=" Black" IsRunning="{Binding isLoading}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
