@@ -11,7 +11,7 @@ namespace XamarinFirebaseHA
         const string CONFIG_KEY = "AIzaSyBLzjmsffN54_Tbp8WzUKFF2GEvI4ug_YY";
         public static FirebaseAuthProvider firebaseAuthProvier = new FirebaseAuthProvider(new FirebaseConfig(CONFIG_KEY));
 
-
+        public static readonly string DB_NAME = "hardwareAndro";
         public App()
         {
             InitializeComponent();

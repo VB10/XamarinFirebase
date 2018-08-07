@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using XamarinFirebaseHA.Database;
 
 namespace XamarinFirebaseHA.ViewModel
 {
@@ -16,9 +17,13 @@ namespace XamarinFirebaseHA.ViewModel
                 return page.Navigation;
             }
         }
+
+        public SqliteManager sqliteManager;
+
         public BaseViewModel(Page page)
         {
             this.page = page;
+            sqliteManager = new SqliteManager();
         }
 
         public void errorAlert(string text)
