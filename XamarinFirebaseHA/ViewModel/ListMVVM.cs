@@ -33,6 +33,23 @@ namespace XamarinFirebaseHA.ViewModel
         {
             firebaseService = new DbFirebase();
             studentList = new ObservableCollection<Student>();
+            sqliteManager.CreateTable<Student>();
+
+            #region SQLite
+            var data = sqliteManager.GetAll<Student>();
+
+            //sqliteManager.Delete(data[0]);
+
+            //sqliteManager.GetAll<Student>();
+
+            ////insert after 
+            //var updateData = data[0];
+            //updateData.name = "XASA";
+            //sqliteManager.Update(updateData);
+
+            //sqliteManager.GetAll<Student>();
+            #endregion
+    
 
             MessagingCenter.Subscribe<AddMVVM, bool>(this, MessageSend.addMvvmRefresh.ToString(), async (pg, item) =>
              {
@@ -128,6 +145,14 @@ namespace XamarinFirebaseHA.ViewModel
                 if (all_list.Count > 0)
                 {
                 studentList = all_list;
+
+                //sqliteTest
+                foreach (var item in studentList)
+                {
+                    
+                    sqliteManager.Insert<Student>(item);
+                }
+                sqliteManager.Count<Student>();
                 }
                 //onRefresh = false; 
             }

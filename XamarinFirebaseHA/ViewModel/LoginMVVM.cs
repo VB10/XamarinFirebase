@@ -9,14 +9,12 @@ using XamarinFirebaseHA.Views;
 
 namespace XamarinFirebaseHA.ViewModel
 {
-    public class LoginMVVM : INotifyPropertyChanged
+    public class LoginMVVM : BaseViewModel
     {
-        Page page;
         DbFirebase service;
-        public LoginMVVM(Page page)
+        public LoginMVVM(Page page):base(page)
         {
-            this.page = page;
-            service = new DbFirebase();
+           service = new DbFirebase();
         }
 
         //TODO user sign in 
@@ -31,7 +29,7 @@ namespace XamarinFirebaseHA.ViewModel
                         var user = await App.firebaseAuthProvier.SignInWithEmailAndPasswordAsync(userName.ToLower().Trim() + "@hwa.com", password.Trim());
                         UserLocalData.userToken = user.FirebaseToken;
                         //TODO UserLocalData.userName = username.trim().base64
-                        await page.Navigation.PushModalAsync(new NavigationPage(new StudentListPage()), true);
+                        Navigation.PushModalAsync(new NavigationPage(new StudentListPage()), true);
 
                     }
                     catch (Exception ex)
@@ -76,11 +74,7 @@ namespace XamarinFirebaseHA.ViewModel
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+
     }
 }
 

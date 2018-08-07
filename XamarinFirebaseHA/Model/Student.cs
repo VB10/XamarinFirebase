@@ -1,11 +1,17 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
+﻿
 namespace XamarinFirebaseHA
 {
+    [SQLite.Table("Student")]
+
     public class Student
     {
+        [SQLite.PrimaryKey, SQLite.AutoIncrement]
+        public int ID
+        {
+            get;
+            set;
+        }
+        
         public string name
         {
             get;
@@ -32,6 +38,7 @@ namespace XamarinFirebaseHA
             get;
             set;
         }
+
 
         //public string key
         //{

@@ -50,6 +50,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\LoginMVVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helper\UserLocalData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\ISqliteConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\SqliteManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helper\ISqliteManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Database\" />
