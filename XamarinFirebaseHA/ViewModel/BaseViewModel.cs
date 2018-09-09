@@ -28,7 +28,11 @@ namespace XamarinFirebaseHA.ViewModel
 
         public void errorAlert(string text)
         {
-            page.DisplayAlert("Erro", text, "Okey");
+            page.DisplayAlert("Error", text, "Okey");
+        }
+        public void successAlert(string text)
+        {
+            page.DisplayAlert("Success", text, "Okey");
         }
         public async Task<string> actionSheet(string text, string text2)
         {
