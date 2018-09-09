@@ -44,5 +44,7 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>New Entry</string>
+	<key>NSCameraUsageDescription</key>
+	<string>New Entry</string>
 </dict>
 </plist>

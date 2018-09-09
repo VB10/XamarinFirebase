@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XamarinFirebaseHA.Views;
+using ZXing.Net.Mobile.Forms;
 using static XamarinFirebaseHA.Helper.BaseEnum;
 
 namespace XamarinFirebaseHA.ViewModel
@@ -13,7 +14,7 @@ namespace XamarinFirebaseHA.ViewModel
     {
         DbFirebase firebaseService;
         ObservableCollection<Student> _studentList;
-
+        ZXingScannerPage scannerPage;
 
         public ObservableCollection<Student> studentList
         {
@@ -34,7 +35,9 @@ namespace XamarinFirebaseHA.ViewModel
             firebaseService = new DbFirebase();
             studentList = new ObservableCollection<Student>();
             sqliteManager.CreateTable<Student>();
+            scannerPage = new ZXingScannerPage();
 
+            scannerPage.OnScanResult += HandleScanResultDelegate;
             #region SQLite
             var data = sqliteManager.GetAll<Student>();
 
@@ -49,7 +52,7 @@ namespace XamarinFirebaseHA.ViewModel
 
             //sqliteManager.GetAll<Student>();
             #endregion
-    
+
 
             MessagingCenter.Subscribe<AddMVVM, bool>(this, MessageSend.addMvvmRefresh.ToString(), async (pg, item) =>
              {
@@ -60,6 +63,17 @@ namespace XamarinFirebaseHA.ViewModel
                  MessagingCenter.Unsubscribe<AddMVVM, bool>(this, MessageSend.addMvvmRefresh.ToString());
              });
         }
+
+        void HandleScanResultDelegate(ZXing.Result result)
+        {
+            scannerPage.IsScanning = false;
+            Device.BeginInvokeOnMainThread(() =>
+            {
+            Navigation.PopAsync();
+                successAlert(result.Text);
+            });
+        }
+
 
         public ICommand addCommand
         {
@@ -87,7 +101,16 @@ namespace XamarinFirebaseHA.ViewModel
             }
         }
 
-
+        public ICommand QRCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    await Navigation.PushAsync(scannerPage);
+                });
+            }
+        }
         public ICommand refreshCommand
         {
             get
@@ -117,7 +140,7 @@ namespace XamarinFirebaseHA.ViewModel
                     list.RemoveAt(0);
                     foreach (var listItem in list)
                     {
-                         studentList.Add(listItem);
+                        studentList.Add(listItem);
                     }
                     studentList = studentList;
                 }
@@ -127,39 +150,39 @@ namespace XamarinFirebaseHA.ViewModel
 
 
 
-            public async Task onAppering()
+        public async Task onAppering()
+        {
+            if (studentList.Count == 0)
             {
-                if (studentList.Count == 0)
-                {
-                    isVisible = true;
-                    await getlist();
-                    isVisible = false;
-                }
-
+                isVisible = true;
+                await getlist();
+                isVisible = false;
             }
-            async Task getlist()
+
+        }
+        async Task getlist()
+        {
+
+            var all_list = await firebaseService.getList();
+
+            if (all_list.Count > 0)
             {
-
-                var all_list = await firebaseService.getList();
-
-                if (all_list.Count > 0)
-                {
                 studentList = all_list;
 
                 //sqliteTest
                 foreach (var item in studentList)
                 {
-                    
+
                     sqliteManager.Insert<Student>(item);
                 }
                 sqliteManager.Count<Student>();
-                }
-                //onRefresh = false; 
             }
+            //onRefresh = false; 
+        }
 
 
-            #region boolen değişikler
-            bool _isVisible;
+        #region boolen değişikler
+        bool _isVisible;
 
         public bool isVisible
         {

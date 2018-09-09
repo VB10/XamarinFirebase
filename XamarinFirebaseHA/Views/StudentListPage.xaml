@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" Title="Students" BackgroundColor="{StaticResource backgroundColor}" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="XamarinFirebaseHA.Views.StudentListPage">
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="QR " Command="{Binding QRCommand}" AutomationId="Scan" />
         <ToolbarItem Text="+" Command="{Binding addCommand}" />
-          <ToolbarItem Text="-" Command="{Binding filterCommand}" />
+        <ToolbarItem Text="-" Command="{Binding filterCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView BindingContext="{Binding .}" ItemAppearing="Handle_ItemAppearing" IsPullToRefreshEnabled="true" RefreshCommand="{Binding refreshCommand}" BackgroundColor="Transparent" ItemsSource="{Binding studentList}" RowHeight="250" IsRefreshing="{Binding isVisible}" HasUnevenRows="true" SeparatorVisibility="None">
@@ -24,8 +25,8 @@
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-                   <ListView.Footer>
-                <ActivityIndicator IsVisible="{Binding isInfinity}" IsRunning="{Binding isInfinity}"/>
+            <ListView.Footer>
+                <ActivityIndicator IsVisible="{Binding isInfinity}" IsRunning="{Binding isInfinity}" />
             </ListView.Footer>
         </ListView>
     </ContentPage.Content>
