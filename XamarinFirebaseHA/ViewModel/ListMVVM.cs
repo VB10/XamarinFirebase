@@ -71,6 +71,8 @@ namespace XamarinFirebaseHA.ViewModel
             {
             Navigation.PopAsync();
                 successAlert(result.Text);
+                //go to chat room in text
+                //service.post(text)
             });
         }
 

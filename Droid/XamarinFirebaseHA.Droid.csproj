@@ -200,6 +200,7 @@
     <Compile Include="MainApplication.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Dependency\GetSqliteConnection.cs" />
+    <Compile Include="SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -216,6 +217,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable\addImage.png" />
+    <AndroidResource Include="Resources\drawable\backg.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dependency\" />
